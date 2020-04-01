@@ -1,5 +1,7 @@
 #prevstr = "S 0 0 100 -100 0 1 0 N"
-prevstr = "P 5 0 1 0 0 0 0 -200 200 -200 200 0 0 0 N"
+#prevstr = "P 5 0 1 0 0 0 0 -200 200 -200 200 0 0 0 N"
+#prevstr = "X RST_N 10 900 -1150 200 U 50 50 0 0 U"
+prevstr = "X ~ ~ 50 -200 99 U 50 50 1 1 I"
 nextstr = ""
 
 
@@ -7,9 +9,9 @@ nextstr = ""
 #S LTX LTY RBX RBY 0 1 0 N
 #Line X1 Y1 X2 Y2 8 0 0 0
 def changeStoLine(istr):
-    print("changeStoLine")    
+    #print("changeStoLine")    
     if not istr.startswith('S') :
-        print("no s")
+        #print("no s")
         return ""
     sa = istr.split()
     rets = ""
@@ -25,7 +27,7 @@ def changeStoLine(istr):
     
 #P 5 0 1 0 0 0 0 -200 200 -200 200 0 0 0 N
 def changePtoLine(istr):
-    print("changePtoLine")    
+    #print("changePtoLine")    
     if not istr.startswith('P') :
         print("no P")
         return ""
@@ -34,7 +36,7 @@ def changePtoLine(istr):
     lineCnt = int(sa[1])
     for i in range(lineCnt-1):
         idx = i * 2 + 5
-        print(idx)
+        #print(idx)
         ltx = sa[idx + 0]
         lty = sa[idx + 1]
         rbx = sa[idx + 2]
@@ -46,15 +48,62 @@ def changePtoLine(istr):
 #DRAW
 # pin
 # X ~ 1 200 -50 100 L 50 50 1 1 I
+# X ~ ~ 50 -200 99 U 50 50 1 1 I
 # X RST_N 10 900 -1150 200 U 50 50 0 0 U
-#Pin X Y 200 0 0
-#Name "FAT" X-12 Y 70 26
-#No "1" X+50 Y 70 8
+# X Text PinNumber X Y Length UpDownLeftRight 50 50 1 1 I
 def changeXtoPin(istr):
     print("changeXtoPin")    
     if not istr.startswith('X') :
         print("no X")
-        return
+        return ""
+    sa = istr.split()
+    rets = ""
+    name = sa[1]
+    pinnumber = sa[2]
+    x = int(sa[3])
+    y = int(sa[4])
+    leng = int(sa[5])
+    dir = sa[6]
+    if dir == "D":
+        #上方向
+        #Pin X Y X Y+Len 0
+        #Name "FAT" X Y-12 70 282
+        #No "1" X Y+50 70 264
+        rets += "Pin "+ str(x) + " "+ str(y) + " "+ str(x) + " "+ str(y+leng) + " 0\n"
+        if name != "~":
+            rets += 'Name "'+ name + '" ' + str(x-12) + " "+ str(y) + " 70 282\n"
+        if pinnumber != "~":
+            rets += 'No "'+ pinnumber + '" ' + x + " "+ str(y+50) + " 70 264\n"
+    elif dir == "U":
+        #Pin X Y X Y-Len 0
+        #Name "FAT" X Y+12 70 280
+        #No "1" X Y-50 70 266
+        sy = str(y-leng)
+        rets += "Pin "+ str(x) + " "+ str(y) + " "+ str(x) + " "+ sy + " 0\n"
+        if name != "~":
+            rets += 'Name "'+ name + '" ' + str(x) + " "+ str(y+12) + " 70 280\n"
+        if pinnumber != "~":
+            rets += 'No "'+ pinnumber + '" ' + str(x) + " "+ str(y-50) + " 70 266\n"
+    elif dir == "L":
+        #右方向
+        #Pin X Y X+Len Y 0
+        #Name "FAT" X-18 Y 70 26
+        #No "1" X+50 Y 70 264
+        rets += "Pin "+ str(x) + " "+ str(y) + " "+ str(x+leng) + " "+ str(y) + " 0\n"
+        if name != "~":
+            rets += 'Name "'+ name + '" ' + str(x-18) + " "+ str(y) + " 70 26\n"
+        if pinnumber != "~":
+            rets += 'No "'+ pinnumber + '" ' + str(x+50) + " "+ str(y) + " 70 264\n"
+    elif dir == "R":
+        #Pin X Y X-Len Y 0
+        #Name "FAT" X+12 Y 70 24
+        #No "1" X-50 Y 70 10
+        rets += "Pin "+ str(x) + " "+ str(y) + " "+ str(x-leng) + " "+ str(y) + " 0\n"
+        if name != "~":
+            rets += 'Name "'+ name + '" ' + str(x+12) + " "+ str(y) + " 70 24\n"
+        if pinnumber != "~":
+            rets += 'No "'+ pinnumber + '" ' + str(x-50) + " "+ str(y) + " 70 10\n"
+    return rets
 
 # T 0 50 -200 50 0 0 0 FA Normal 0 C C
 #T 0 100 -200 50 0 0 0 FA Normal 0 C C
@@ -69,5 +118,6 @@ def changeTtoText(istr):
 
 
 #nextstr = changeStoLine(prevstr)
-nextstr = changePtoLine(prevstr)
+#nextstr = changePtoLine(prevstr)
+nextstr = changeXtoPin(prevstr)
 print(nextstr)
