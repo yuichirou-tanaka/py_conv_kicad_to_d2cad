@@ -1,17 +1,9 @@
-#
-import sys
-args = sys.argv
-
-#prevstr = "T 900 350 -400 50 0 0 0 DA Normal 0 C C"
-prevstr = "	1200 900  1550 900 "
-nextstr = ""
-
 #S 0 0 100 -100 0 1 0 N
 #S LTX LTY RBX RBY 0 1 0 N
 #Line X1 Y1 X2 Y2 8 0 0 0
 def changeStoLine(istr):
     #print("changeStoLine")    
-    if not istr.startswith('S') :
+    if not istr.startswith('S ') :
         #print("no s")
         return ""
     sa = istr.split()
@@ -29,7 +21,7 @@ def changeStoLine(istr):
 #P 5 0 1 0 0 0 0 -200 200 -200 200 0 0 0 N
 def changePtoLine(istr):
     #print("changePtoLine")    
-    if not istr.startswith('P') :
+    if not istr.startswith('P ') :
         #print("no P")
         return ""
     sa = istr.split()
@@ -54,7 +46,7 @@ def changePtoLine(istr):
 # X Text PinNumber X Y Length UpDownLeftRight 50 50 1 1 I
 def changeXtoPin(istr):
     #print("changeXtoPin")    
-    if not istr.startswith('X') :
+    if not istr.startswith('X ') :
         #print("no X")
         return ""
     sa = istr.split()
@@ -116,7 +108,7 @@ def changeXtoPin(istr):
 def changeTtoText(istr):
     #print("changeXtoPin")    
     rets = ""
-    if not istr.startswith('T') :
+    if not istr.startswith('T ') :
         #print("no T")
         return ""
     
@@ -157,66 +149,17 @@ def changeWBusLtoLine(istr):
     rets += "Line "+ str(x1) + " "+ str(y1) + " "+ str(x2) + " "+ str(y2) + " 242 2 0 0 \n"
     return rets
 
-#nextstr = changeWWLtoLine(prevstr)
-#print(nextstr)
 
-
-# path set
-path = args[1]
-outputPath = args[2]
-print(path)
-
-#open file
-readKidat = open(path, "r")
-d2wr = open(outputPath, "w")
-
-#read data
-wwlflag = False
-wblflag = False
-for prevstr in readKidat:
-    nextstr = changeStoLine(prevstr)
-    if not nextstr == "":
-        d2wr.write(nextstr)
-        continue
-    nextstr = changePtoLine(prevstr)
-    if not nextstr == "":
-        d2wr.write(nextstr)
-        continue
-    nextstr = changeXtoPin(prevstr)
-    if not nextstr == "":
-        d2wr.write(nextstr)
-        continue
-    nextstr = changeTtoText(prevstr)
-    if not nextstr == "":
-        d2wr.write(nextstr)
-        continue
-
-    if prevstr.startswith("Wire Wire Line"):
-        wwlflag = True
-        continue
-
-    if wwlflag == True:
-        wwlflag = False
-        nextstr = changeWWLtoLine(prevstr)
-        if not nextstr == "":
-            d2wr.write(nextstr)
-            continue
-
-    if prevstr.startswith("Wire Bus Line"):
-        wblflag = True
-        continue
-
-    if wblflag == True:
-        wblflag = False
-        nextstr = changeWBusLtoLine(prevstr)
-        if not nextstr == "":
-            d2wr.write(nextstr)
-            continue
-
-    d2wr.write("\n")
-
-#close file
-readKidat.close()
-d2wr.close()
-
-print("write "+outputPath)
+# 接点
+#Connection ~ X Y
+#Junc X Y
+def changeConnectToJunc(istr):
+    rets = ""
+    if not istr.startswith('Connection ') :
+        #print("no T")
+        return ""
+    sa = istr.split()
+    x = int(sa[2])
+    y = int(sa[3])
+    rets += "Junc "+ str(x) + " "+ str(y) + " \n"
+    return rets
