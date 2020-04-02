@@ -1,7 +1,10 @@
 #prevstr = "S 0 0 100 -100 0 1 0 N"
 #prevstr = "P 5 0 1 0 0 0 0 -200 200 -200 200 0 0 0 N"
 #prevstr = "X RST_N 10 900 -1150 200 U 50 50 0 0 U"
-prevstr = "X ~ ~ 50 -200 99 U 50 50 1 1 I"
+#prevstr = "X ~ ~ 50 -200 99 U 50 50 1 1 I"
+#prevstr = "T 0 100 -300 50 0 0 0 FFF Normal 0 C C"
+prevstr = "T 900 350 -400 50 0 0 0 DA Normal 0 C C"
+
 nextstr = ""
 
 
@@ -108,16 +111,37 @@ def changeXtoPin(istr):
 # T 0 50 -200 50 0 0 0 FA Normal 0 C C
 #T 0 100 -200 50 0 0 0 FA Normal 0 C C
 #T 0 100 -300 50 0 0 0 FFF Normal 0 C C
+#T 900 350 -400 50 0 0 0 DA Normal 0 C C
 # Text "test" 2100 7700 70 8
-# Text "testa" 2100 7600 70 8
+#Text "DA" x y 70 264
+#Text "DA" x y 70 520
+#Text "DA" x y 70 776
 def changeTtoText(istr):
     print("changeXtoPin")    
+    rets = ""
     if not istr.startswith('T') :
         print("no T")
-        return
+        return ""
+    
+    sa = istr.split()
+    if sa[1] == "900":
+        dir = "R"
+    else:
+        dir = "D"
+    x = int(sa[2])
+    y = int(sa[3])
+    leng = int(sa[4])
+    txt = sa[8]
+    if dir == "D":
+        rets += 'Text "'+ txt + '" ' + str(x) + " "+ str(y) + " 70 8\n"
+    elif dir == "R":
+        rets += 'Text "'+ txt + '" ' + str(x) + " "+ str(y) + " 70 264\n"
+    return rets
 
 
 #nextstr = changeStoLine(prevstr)
 #nextstr = changePtoLine(prevstr)
-nextstr = changeXtoPin(prevstr)
-print(nextstr)
+#nextstr = changeXtoPin(prevstr)
+#nextstr = changeTtoText(prevstr)
+#print(nextstr)
+
