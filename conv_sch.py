@@ -26,6 +26,8 @@ d2wr = open(outputPath, "w")
 wwlflag = False
 wblflag = False
 oldTextNote = ""
+oldTextGLabel = ""
+oldTextLabel = ""
 for prevstr in readKidat:
 
     if not oldTextNote == "":
@@ -34,9 +36,28 @@ for prevstr in readKidat:
         if not nextstr == "":
             d2wr.write(nextstr)
             continue
-    
     if prevstr.startswith('Text Notes ') :
         oldTextNote = prevstr
+        continue
+
+    if not oldTextGLabel == "":
+        nextstr = conv.changeSchTextGLabeltoName(oldTextGLabel, prevstr)
+        oldTextGLabel = ""
+        if not nextstr == "":
+            d2wr.write(nextstr)
+            continue
+    if prevstr.startswith('Text GLabel ') :
+        oldTextGLabel = prevstr
+        continue
+
+    if not oldTextLabel == "":
+        nextstr = conv.changeSchTextLabeltoName(oldTextLabel, prevstr)
+        oldTextLabel = ""
+        if not nextstr == "":
+            d2wr.write(nextstr)
+            continue
+    if prevstr.startswith('Text Label ') :
+        oldTextLabel = prevstr
         continue
 
     if prevstr.startswith("Wire Wire Line"):

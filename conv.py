@@ -150,6 +150,44 @@ def changeSchTextNoteTtoText(istr, txt):
     rets += 'Text "'+ txt + '" ' + str(x) + " "+ str(y) + " 70 8\n"
     return rets
 
+# text 
+#Text GLabel 7050 6300 0    50   Output ~ 0
+#BT_RX_IND
+def changeSchTextGLabeltoName(istr, txt):
+    #print("changeXtoPin")    
+    rets = ""
+    if not istr.startswith('Text GLabel ') :
+        #print("no T")
+        return ""
+    sa = istr.split()
+    x = int(sa[2])
+    y = int(sa[3])*DEF_Y_MOD + DEF_Y_MAX
+    dir = sa[6]
+    txt = txt.strip()
+    lasttype = 8
+    if dir == "Output":
+        lasttype = 851976
+    elif dir == "Input":
+        lasttype = 917512
+    rets += 'Name "'+ txt + '" ' + str(x) + " "+ str(y) + " 70 "+ str(lasttype) +" \n"
+    return rets
+
+# text 
+#Text Label 6850 5700 0    50   ~ 0
+#GPIO0
+def changeSchTextLabeltoName(istr, txt):
+    #print("changeXtoPin")    
+    rets = ""
+    if not istr.startswith('Text Label ') :
+        #print("no T")
+        return ""
+    sa = istr.split()
+    x = int(sa[2])
+    y = int(sa[3])*DEF_Y_MOD + DEF_Y_MAX
+    txt = txt.strip()
+    rets += 'Name "'+ txt + '" ' + str(x) + " "+ str(y) + " 70 8\n"
+    return rets
+
 
 # wire 赤い線
 def changeWWLtoLine(istr):
