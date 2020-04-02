@@ -69,40 +69,39 @@ def changeXtoPin(istr):
         #Pin X Y X Y+Len 0
         #Name "FAT" X Y-12 70 282
         #No "1" X Y+50 70 264
-        rets += "Pin "+ str(x) + " "+ str(y) + " "+ str(x) + " "+ str(y+leng) + " 0\n"
+        rets += "Pin "+ str(x) + " "+ str(y-leng) + " "+ str(x) + " "+ str(y) + " 0\n"
         if name != "~":
-            rets += 'Name "'+ name + '" ' + str(x-12) + " "+ str(y) + " 70 282\n"
+            rets += 'Name "'+ name + '" ' + str(x-12) + " "+ str(y-leng) + " 70 282\n"
         if pinnumber != "~":
-            rets += 'No "'+ pinnumber + '" ' + x + " "+ str(y+50) + " 70 264\n"
+            rets += 'No "'+ pinnumber + '" ' + str(x) + " "+ str(y+50-leng) + " 70 264\n"
     elif dir == "U":
         #Pin X Y X Y-Len 0
         #Name "FAT" X Y+12 70 280
         #No "1" X Y-50 70 266
-        sy = str(y-leng)
-        rets += "Pin "+ str(x) + " "+ str(y) + " "+ str(x) + " "+ sy + " 0\n"
+        rets += "Pin "+ str(x) + " "+ str(y+leng) + " "+ str(x) + " "+ str(y) + " 0\n"
         if name != "~":
-            rets += 'Name "'+ name + '" ' + str(x) + " "+ str(y+12) + " 70 280\n"
+            rets += 'Name "'+ name + '" ' + str(x) + " "+ str(y+12+leng) + " 70 280\n"
         if pinnumber != "~":
-            rets += 'No "'+ pinnumber + '" ' + str(x) + " "+ str(y-50) + " 70 266\n"
+            rets += 'No "'+ pinnumber + '" ' + str(x) + " "+ str(y-50+leng) + " 70 266\n"
     elif dir == "L":
         #右方向
         #Pin X Y X+Len Y 0
         #Name "FAT" X-18 Y 70 26
         #No "1" X+50 Y 70 264
-        rets += "Pin "+ str(x) + " "+ str(y) + " "+ str(x+leng) + " "+ str(y) + " 0\n"
+        rets += "Pin "+ str(x-leng) + " "+ str(y) + " "+ str(x) + " "+ str(y) + " 0\n"
         if name != "~":
-            rets += 'Name "'+ name + '" ' + str(x-18) + " "+ str(y) + " 70 26\n"
+            rets += 'Name "'+ name + '" ' + str(x-18-leng) + " "+ str(y) + " 70 26\n"
         if pinnumber != "~":
-            rets += 'No "'+ pinnumber + '" ' + str(x+50) + " "+ str(y) + " 70 264\n"
+            rets += 'No "'+ pinnumber + '" ' + str(x+100-leng) + " "+ str(y) + " 70 10\n"
     elif dir == "R":
         #Pin X Y X-Len Y 0
         #Name "FAT" X+12 Y 70 24
         #No "1" X-50 Y 70 10
-        rets += "Pin "+ str(x) + " "+ str(y) + " "+ str(x-leng) + " "+ str(y) + " 0\n"
+        rets += "Pin "+ str(x+leng) + " "+ str(y) + " "+ str(x) + " "+ str(y) + " 0\n"
         if name != "~":
-            rets += 'Name "'+ name + '" ' + str(x+12) + " "+ str(y) + " 70 24\n"
+            rets += 'Name "'+ name + '" ' + str(x+12+leng) + " "+ str(y) + " 70 24\n"
         if pinnumber != "~":
-            rets += 'No "'+ pinnumber + '" ' + str(x-50) + " "+ str(y) + " 70 10\n"
+            rets += 'No "'+ pinnumber + '" ' + str(x-50+leng) + " "+ str(y) + " 70 10\n"
     return rets
 
 # T 0 50 -200 50 0 0 0 FA Normal 0 C C
