@@ -1,3 +1,8 @@
+
+DEF_Y_MAX= 9000
+DEF_Y_MOD=-1
+
+
 #S 0 0 100 -100 0 1 0 N
 #S LTX LTY RBX RBY 0 1 0 N
 #Line X1 Y1 X2 Y2 8 0 0 0
@@ -127,14 +132,33 @@ def changeTtoText(istr):
         rets += 'Text "'+ txt + '" ' + str(x) + " "+ str(y) + " 70 264\n"
     return rets
 
+# --------------------------------------------------------
+
+# text 
+#Text Notes 2850 7250 0    50   ~ 0
+#BT_RX_IND
+def changeSchTextNoteTtoText(istr, txt):
+    #print("changeXtoPin")    
+    rets = ""
+    if not istr.startswith('Text Notes ') :
+        #print("no T")
+        return ""
+    sa = istr.split()
+    x = int(sa[2])
+    y = int(sa[3])*DEF_Y_MOD + DEF_Y_MAX
+    txt = txt.strip()
+    rets += 'Text "'+ txt + '" ' + str(x) + " "+ str(y) + " 70 8\n"
+    return rets
+
+
 # wire 赤い線
 def changeWWLtoLine(istr):
     rets = ""
     sa = istr.split()
     x1 = int(sa[0])
-    y1 = int(sa[1])
+    y1 = int(sa[1])*DEF_Y_MOD + DEF_Y_MAX
     x2 = int(sa[2])
-    y2 = int(sa[3])
+    y2 = int(sa[3])*DEF_Y_MOD + DEF_Y_MAX
     rets += "Line "+ str(x1) + " "+ str(y1) + " "+ str(x2) + " "+ str(y2) + " 8 0 0 0 \n"
     return rets
 
@@ -143,9 +167,9 @@ def changeWBusLtoLine(istr):
     rets = ""
     sa = istr.split()
     x1 = int(sa[0])
-    y1 = int(sa[1])
+    y1 = int(sa[1])*DEF_Y_MOD + DEF_Y_MAX
     x2 = int(sa[2])
-    y2 = int(sa[3])
+    y2 = int(sa[3])*DEF_Y_MOD + DEF_Y_MAX
     rets += "Line "+ str(x1) + " "+ str(y1) + " "+ str(x2) + " "+ str(y2) + " 242 2 0 0 \n"
     return rets
 
@@ -160,6 +184,6 @@ def changeConnectToJunc(istr):
         return ""
     sa = istr.split()
     x = int(sa[2])
-    y = int(sa[3])
+    y = int(sa[3])*DEF_Y_MOD + DEF_Y_MAX
     rets += "Junc "+ str(x) + " "+ str(y) + " \n"
     return rets

@@ -25,7 +25,20 @@ d2wr = open(outputPath, "w")
 #read data
 wwlflag = False
 wblflag = False
+oldTextNote = ""
 for prevstr in readKidat:
+
+    if not oldTextNote == "":
+        nextstr = conv.changeSchTextNoteTtoText(oldTextNote, prevstr)
+        oldTextNote = ""
+        if not nextstr == "":
+            d2wr.write(nextstr)
+            continue
+    
+    if prevstr.startswith('Text Notes ') :
+        oldTextNote = prevstr
+        continue
+
     if prevstr.startswith("Wire Wire Line"):
         wwlflag = True
         continue
@@ -51,7 +64,7 @@ for prevstr in readKidat:
         d2wr.write(nextstr)
         continue
     #return
-    d2wr.write("\n")
+    #d2wr.write("\n")
 
 #close file
 readKidat.close()
