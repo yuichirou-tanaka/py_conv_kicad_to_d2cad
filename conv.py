@@ -2,7 +2,8 @@
 import sys
 args = sys.argv
 
-prevstr = "T 900 350 -400 50 0 0 0 DA Normal 0 C C"
+#prevstr = "T 900 350 -400 50 0 0 0 DA Normal 0 C C"
+prevstr = "	1200 900  1550 900 "
 nextstr = ""
 
 #S 0 0 100 -100 0 1 0 N
@@ -134,6 +135,32 @@ def changeTtoText(istr):
         rets += 'Text "'+ txt + '" ' + str(x) + " "+ str(y) + " 70 264\n"
     return rets
 
+# wire 赤い線
+def changeWWLtoLine(istr):
+    rets = ""
+    sa = istr.split()
+    x1 = int(sa[0])
+    y1 = int(sa[1])
+    x2 = int(sa[2])
+    y2 = int(sa[3])
+    rets += "Line "+ str(x1) + " "+ str(y1) + " "+ str(x2) + " "+ str(y2) + " 8 0 0 0 \n"
+    return rets
+
+# wirebus 青い太い線
+def changeWBusLtoLine(istr):
+    rets = ""
+    sa = istr.split()
+    x1 = int(sa[0])
+    y1 = int(sa[1])
+    x2 = int(sa[2])
+    y2 = int(sa[3])
+    rets += "Line "+ str(x1) + " "+ str(y1) + " "+ str(x2) + " "+ str(y2) + " 242 2 0 0 \n"
+    return rets
+
+#nextstr = changeWWLtoLine(prevstr)
+#print(nextstr)
+
+
 # path set
 path = args[1]
 outputPath = args[2]
@@ -144,6 +171,8 @@ readKidat = open(path, "r")
 d2wr = open(outputPath, "w")
 
 #read data
+wwlflag = False
+wblflag = False
 for prevstr in readKidat:
     nextstr = changeStoLine(prevstr)
     if not nextstr == "":
@@ -161,6 +190,28 @@ for prevstr in readKidat:
     if not nextstr == "":
         d2wr.write(nextstr)
         continue
+
+    if prevstr.startswith("Wire Wire Line"):
+        wwlflag = True
+        continue
+
+    if wwlflag == True:
+        wwlflag = False
+        nextstr = changeWWLtoLine(prevstr)
+        if not nextstr == "":
+            d2wr.write(nextstr)
+            continue
+
+    if prevstr.startswith("Wire Bus Line"):
+        wblflag = True
+        continue
+
+    if wblflag == True:
+        wblflag = False
+        nextstr = changeWBusLtoLine(prevstr)
+        if not nextstr == "":
+            d2wr.write(nextstr)
+            continue
 
     d2wr.write("\n")
 
