@@ -1,12 +1,9 @@
-#prevstr = "S 0 0 100 -100 0 1 0 N"
-#prevstr = "P 5 0 1 0 0 0 0 -200 200 -200 200 0 0 0 N"
-#prevstr = "X RST_N 10 900 -1150 200 U 50 50 0 0 U"
-#prevstr = "X ~ ~ 50 -200 99 U 50 50 1 1 I"
-#prevstr = "T 0 100 -300 50 0 0 0 FFF Normal 0 C C"
+#
+import sys
+args = sys.argv
+
 prevstr = "T 900 350 -400 50 0 0 0 DA Normal 0 C C"
-
 nextstr = ""
-
 
 #S 0 0 100 -100 0 1 0 N
 #S LTX LTY RBX RBY 0 1 0 N
@@ -32,7 +29,7 @@ def changeStoLine(istr):
 def changePtoLine(istr):
     #print("changePtoLine")    
     if not istr.startswith('P') :
-        print("no P")
+        #print("no P")
         return ""
     sa = istr.split()
     rets = ""
@@ -55,9 +52,9 @@ def changePtoLine(istr):
 # X RST_N 10 900 -1150 200 U 50 50 0 0 U
 # X Text PinNumber X Y Length UpDownLeftRight 50 50 1 1 I
 def changeXtoPin(istr):
-    print("changeXtoPin")    
+    #print("changeXtoPin")    
     if not istr.startswith('X') :
-        print("no X")
+        #print("no X")
         return ""
     sa = istr.split()
     rets = ""
@@ -117,10 +114,10 @@ def changeXtoPin(istr):
 #Text "DA" x y 70 520
 #Text "DA" x y 70 776
 def changeTtoText(istr):
-    print("changeXtoPin")    
+    #print("changeXtoPin")    
     rets = ""
     if not istr.startswith('T') :
-        print("no T")
+        #print("no T")
         return ""
     
     sa = istr.split()
@@ -138,10 +135,38 @@ def changeTtoText(istr):
         rets += 'Text "'+ txt + '" ' + str(x) + " "+ str(y) + " 70 264\n"
     return rets
 
+# path set
+path = args[1]
+outputPath = args[2]
+print(path)
 
-#nextstr = changeStoLine(prevstr)
-#nextstr = changePtoLine(prevstr)
-#nextstr = changeXtoPin(prevstr)
-#nextstr = changeTtoText(prevstr)
-#print(nextstr)
+#open file
+readKidat = open(path, "r")
+d2wr = open(outputPath, "w")
 
+#read data
+for prevstr in readKidat:
+    nextstr = changeStoLine(prevstr)
+    if not nextstr == "":
+        d2wr.write(nextstr)
+        continue
+    nextstr = changePtoLine(prevstr)
+    if not nextstr == "":
+        d2wr.write(nextstr)
+        continue
+    nextstr = changeXtoPin(prevstr)
+    if not nextstr == "":
+        d2wr.write(nextstr)
+        continue
+    nextstr = changeTtoText(prevstr)
+    if not nextstr == "":
+        d2wr.write(nextstr)
+        continue
+
+    d2wr.write("\n")
+
+#close file
+readKidat.close()
+d2wr.close()
+
+print("write "+outputPath)
