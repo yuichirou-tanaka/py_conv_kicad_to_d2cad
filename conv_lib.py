@@ -42,6 +42,16 @@ for prevstr in readKidat:
         d2wr.write(nextstr)
         continue
 
+    nextstr = conv.changeAToArc(prevstr)
+    if not nextstr == "":
+        d2wr.write(nextstr)
+        continue
+    
+    nextstr = conv.changeCToArc(prevstr)
+    if not nextstr == "":
+        d2wr.write(nextstr)
+        continue
+
     #return
     d2wr.write("\n")
 

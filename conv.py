@@ -132,6 +132,38 @@ def changeTtoText(istr):
         rets += 'Text "'+ txt + '" ' + str(x) + " "+ str(y) + " 70 264\n"
     return rets
 
+
+
+# 円弧
+#A X Y Y 634 -634 0 1 0 N 150 0 150 -200
+#Arc X Y 100 270 97 8 1 0 0
+def changeAToArc(istr):
+    rets = ""
+    if not istr.startswith('A ') :
+        #print("no T")
+        return ""
+    sa = istr.split()
+    x = int(sa[1])
+    y = int(sa[2])
+    rets += "Arc "+ str(x) + " "+ str(y) + "  100 270 90 8 1 0 0 \n"
+    return rets
+
+#円
+#C -80 0 20 0 0 0 N
+#Arc X Y 20 0 344 8 1 0 0
+def changeCToArc(istr):
+    rets = ""
+    if not istr.startswith('C ') :
+        #print("no T")
+        return ""
+    sa = istr.split()
+    x = int(sa[1])
+    y = int(sa[2])
+    rets += "Arc "+ str(x) + " "+ str(y) + "  20 0 344 8 1 0 0 \n"
+    return rets
+
+
+
 # --------------------------------------------------------
 
 # text 
@@ -225,3 +257,4 @@ def changeConnectToJunc(istr):
     y = int(sa[3])*DEF_Y_MOD + DEF_Y_MAX
     rets += "Junc "+ str(x) + " "+ str(y) + " \n"
     return rets
+
