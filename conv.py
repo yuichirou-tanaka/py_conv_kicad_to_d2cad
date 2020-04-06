@@ -135,8 +135,11 @@ def changeTtoText(istr):
 
 
 # 円弧
-#A X Y Y 634 -634 0 1 0 N 150 0 150 -200
+#A X Y  Y 634 -634 0 1 0 N 150 0 150 -200
+#A 200 0 50 -1799 -1 0 1 0 N 150 0 250 0
+#A X Y  50 -1799 -1 0 1 0 N 150 0 250 0
 #Arc X Y 100 270 97 8 1 0 0
+#Arc X Y 100 180 0 8 1 0 0 
 def changeAToArc(istr):
     rets = ""
     if not istr.startswith('A ') :
@@ -145,7 +148,30 @@ def changeAToArc(istr):
     sa = istr.split()
     x = int(sa[1])
     y = int(sa[2])
-    rets += "Arc "+ str(x) + " "+ str(y) + "  100 270 90 8 1 0 0 \n"
+    fx = int(sa[10])
+    fy = int(sa[11])
+    lx = int(sa[12])
+    ly = int(sa[13])
+
+    # left
+    # up
+    # down 
+    # right
+    rets += "Arc "+ str(x) + " "+ str(y) + " 100 "
+    arckakudo = " 0 180 "
+    if fx == lx:
+        if ly > fy:
+            arckakudo = " 270 90 "
+        elif ly < fy:
+            arckakudo = " 90 270 "
+        
+    if ly == fy:
+        if lx > fx:
+            arckakudo = " 180 0 "
+        elif lx < fx:
+            arckakudo = " 0 180 "
+
+    rets += arckakudo + " 8 1 0 0 \n"
     return rets
 
 #円
