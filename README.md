@@ -10,4 +10,4 @@ windows10　python 3.7.7 で動作確認済み
 # ライセンス
 MIT License
 
-Copyright (c) 20200407 REIWYT
+Copyright (c) 20200 REIW Y.T
