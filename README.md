@@ -11,7 +11,7 @@ KiCADのファイルをコピペでD2CADにコピーするツール。
 
 # 使い方
 ## KiCADのschファイルを txtに変換しD2CADにコピペ可能な形式にする
-1. python conv_sch.py "Kicadの.libファイルへのパス" "出力ファイル名.txt" 
+1. python conv_sch.py "Kicadの.schファイルへのパス" "出力ファイル名.txt" 
 
 ## KiCADのlibファイルを txtに変換しD2CADにコピペ可能な形式にする
 1. python conv_lib.py "Kicadの.libファイルへのパス" "出力ファイル名.txt" 
