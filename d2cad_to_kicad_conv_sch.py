@@ -27,64 +27,18 @@ oldTextNote = ""
 oldTextGLabel = ""
 oldTextLabel = ""
 for prevstr in readKidat:
+    print(prevstr)
 
-    if not oldTextNote == "":
-        nextstr = conv.changeSchTextNoteTtoText(oldTextNote, prevstr)
-        oldTextNote = ""
-        if not nextstr == "":
-            d2wr.write(nextstr)
-            continue
-    if prevstr.startswith('Text Notes ') :
-        oldTextNote = prevstr
-        continue
-
-    if not oldTextGLabel == "":
-        nextstr = conv.changeSchTextGLabeltoName(oldTextGLabel, prevstr)
-        oldTextGLabel = ""
-        if not nextstr == "":
-            d2wr.write(nextstr)
-            continue
-    if prevstr.startswith('Text GLabel ') :
-        oldTextGLabel = prevstr
-        continue
-
-    if not oldTextLabel == "":
-        nextstr = conv.changeSchTextLabeltoName(oldTextLabel, prevstr)
-        oldTextLabel = ""
-        if not nextstr == "":
-            d2wr.write(nextstr)
-            continue
-    if prevstr.startswith('Text Label ') :
-        oldTextLabel = prevstr
-        continue
-
-    if prevstr.startswith("Wire Wire Line"):
+    if prevstr.startswith("Line"):
         wwlflag = True
-        continue
+
     if wwlflag == True:
         wwlflag = False
-        nextstr = conv.changeWWLtoLine(prevstr)
+        nextstr = d2cad_to_kicad_conv.changeLinetoWW(prevstr)
         if not nextstr == "":
             d2wr.write(nextstr)
             continue
-
-    if prevstr.startswith("Wire Bus Line"):
-        wblflag = True
-        continue
-    if wblflag == True:
-        wblflag = False
-        nextstr = conv.changeWBusLtoLine(prevstr)
-        if not nextstr == "":
-            d2wr.write(nextstr)
-            continue
-    #junc
-    nextstr = conv.changeConnectToJunc(prevstr)
-    if not nextstr == "":
-        d2wr.write(nextstr)
-        continue
-    #return
-    #d2wr.write("\n")
-
+    
 #close file
 readKidat.close()
 d2wr.close()
