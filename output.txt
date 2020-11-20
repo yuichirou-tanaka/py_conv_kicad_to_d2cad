@@ -58,6 +58,18 @@ Wire Wire Line
 	4150 4350 4150 4450
 Wire Wire Line
 	2900 3150 2900 3450
+Connection ~ 3550 3450 
+Connection ~ 4650 3750 
+Connection ~ 4150 4750 
+Connection ~ 4650 4750 
+Connection ~ 5150 3750 
+Connection ~ 5850 4050 
+Connection ~ 5150 4750 
+Connection ~ 5850 4750 
+Connection ~ 2900 3450 
+Connection ~ 2900 4050 
+Connection ~ 5850 3750 
+Connection ~ 3950 3450 
 Wire Wire Line
 	4870 3750 4870 3770
 Wire Wire Line

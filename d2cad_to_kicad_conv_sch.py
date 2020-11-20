@@ -29,6 +29,17 @@ oldTextLabel = ""
 for prevstr in readKidat:
     print(prevstr)
 
+    if prevstr.startswith("Junc"):
+        wwlflag = True
+
+    if wwlflag == True:
+        wwlflag = False
+        nextstr = d2cad_to_kicad_conv.changeJuncToConnect(prevstr)
+        if not nextstr == "":
+            d2wr.write(nextstr)
+            continue
+
+
     if prevstr.startswith("Line"):
         wwlflag = True
 

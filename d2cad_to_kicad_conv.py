@@ -3,7 +3,6 @@ DEF_Y_MAX= 9000
 DEF_Y_MOD=-1
 
 
-
 # wire 赤い線
 #Wire Wire Line
 # 4350 2450 4350 3550
@@ -64,3 +63,19 @@ def changeLinetoPorWireorWireBus(istr):
     rets += "S "+ ltx + " "+ lty + " "+ rbx + " "+ rby + " 0 1 0 N\n"
     return rets
     
+
+    
+
+# 接点
+#Connection ~ X Y
+#Junc X Y
+def changeJuncToConnect(istr):
+    rets = ""
+    if not istr.startswith('Junc ') :
+        #print("no T")
+        return ""
+    sa = istr.split()
+    x = int(sa[1])
+    y = int(sa[2])*DEF_Y_MOD + DEF_Y_MAX
+    rets += "Connection ~ "+ str(x) + " "+ str(y) + " \n"
+    return rets
