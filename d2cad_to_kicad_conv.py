@@ -86,15 +86,15 @@ def changeJuncToConnect(istr):
 # X Es 2 350 0 100 L 50 50 1 1 I
 # X Text PinNumber X Y Length UpDownLeftRight 50 50 1 1 I
 def changePinNameNotoX(istrPin,isName,isNo):
-    print("changePinNameNotoX")    
+    #print("changePinNameNotoX")    
     if not istrPin.startswith('Pin ') :
-        print("no Pin ")
+        #print("no Pin ")
         return ""
     if not isName.startswith('Name ') :
-        print("no Name ")
+        #print("no Name ")
         return ""
     if not isNo.startswith('No ') :
-        print("no No")
+        #print("no No")
         return ""
 
     #上方向
@@ -106,9 +106,9 @@ def changePinNameNotoX(istrPin,isName,isNo):
     saName = isName.split()
     pinNumber = saNo[1].replace('"', '')
     #print(saNo) 
-    print(int(pinNumber))    
+    #print(int(pinNumber))    
     sName = saName[1].replace('"', '')
-    print(sName) 
+    #print(sName) 
     rets = ""
     pinX = int(saPin[1])
     pinY = int(saPin[2])
@@ -116,24 +116,39 @@ def changePinNameNotoX(istrPin,isName,isNo):
     pinY2 = int(saPin[4])
     width = pinX2 - pinX    
     height = pinY2 - pinY
-    print(" width:"+ str(width) + " height = " + str(height) )
+    #print(" width:"+ str(width) + " height = " + str(height) )
 
     if width < 0 and height == 0 :
-        print("R")
+        #print("R")
         iLength = width
         rets += "X "+ sName + " "+ str(pinNumber) + " "+ str(pinX) + " "+ str(pinY) + " "+ str(iLength) + " R 50 50 1 1 I\n"
     elif width > 0 and height == 0 :
         iLength = width
         rets += "X "+ sName + " "+ str(pinNumber) + " "+ str(pinX) + " "+ str(pinY) + " "+ str(iLength) + " L 50 50 1 1 I\n"
-        print("L")
+        #print("L")
     elif width == 0 and height < 0 :
         iLength = height
         rets += "X "+ sName + " "+ str(pinNumber) + " "+ str(pinX) + " "+ str(pinY) + " "+ str(iLength) + " D 50 50 1 1 I\n"
-        print("D")
+        #print("D")
     elif width == 0 and height > 0 :
         iLength = height
         rets += "X "+ sName + " "+ str(pinNumber) + " "+ str(pinX) + " "+ str(pinY) + " "+ str(iLength) + " U 50 50 1 1 I\n"
-        print("U")
+        #print("U")
 
     return rets
 
+# Part 6150 4750 6056 4614 6244 4756 0 0 4096 0'
+# Name "AGND" 6150 4650 65 30'
+#F1 "AGND" 0 100 50 H V C CNN
+def changePartsNametoXF1(isPart,isName):
+    print("changePinNameNotoX")    
+    if not isPart.startswith('Part ') :
+        print("no Part ")
+        return ""
+    if not isName.startswith('Name ') :
+        print("no Name ")
+        return ""
+    saName = isName.split() 
+    sName = saName[1].replace('"', '')
+    rets = "F1 " +  sName + " 0 100 50 H V C CNN"
+    return rets
