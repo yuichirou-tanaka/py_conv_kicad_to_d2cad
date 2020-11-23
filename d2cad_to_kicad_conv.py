@@ -79,3 +79,61 @@ def changeJuncToConnect(istr):
     y = int(sa[2])*DEF_Y_MOD + DEF_Y_MAX
     rets += "Connection ~ "+ str(x) + " "+ str(y) + " \n"
     return rets
+
+
+#DRAW
+# pin
+# X Es 2 350 0 100 L 50 50 1 1 I
+# X Text PinNumber X Y Length UpDownLeftRight 50 50 1 1 I
+def changePinNameNotoX(istrPin,isName,isNo):
+    print("changePinNameNotoX")    
+    if not istrPin.startswith('Pin ') :
+        print("no Pin ")
+        return ""
+    if not isName.startswith('Name ') :
+        print("no Name ")
+        return ""
+    if not isNo.startswith('No ') :
+        print("no No")
+        return ""
+
+    #上方向
+    #Pin X Y X Y+Len 0
+    #Name "FAT" X Y-12 70 282
+    #No "1" X Y+50 70 264
+    saPin = istrPin.split()
+    saNo = isNo.split()
+    saName = isName.split()
+    pinNumber = saNo[1].replace('"', '')
+    #print(saNo) 
+    print(int(pinNumber))    
+    sName = saName[1].replace('"', '')
+    print(sName) 
+    rets = ""
+    pinX = int(saPin[1])
+    pinY = int(saPin[2])
+    pinX2 = int(saPin[3])
+    pinY2 = int(saPin[4])
+    width = pinX2 - pinX    
+    height = pinY2 - pinY
+    print(" width:"+ str(width) + " height = " + str(height) )
+
+    if width < 0 and height == 0 :
+        print("R")
+        iLength = width
+        rets += "X "+ sName + " "+ str(pinNumber) + " "+ str(pinX) + " "+ str(pinY) + " "+ str(iLength) + " R 50 50 1 1 I\n"
+    elif width > 0 and height == 0 :
+        iLength = width
+        rets += "X "+ sName + " "+ str(pinNumber) + " "+ str(pinX) + " "+ str(pinY) + " "+ str(iLength) + " L 50 50 1 1 I\n"
+        print("L")
+    elif width == 0 and height < 0 :
+        iLength = height
+        rets += "X "+ sName + " "+ str(pinNumber) + " "+ str(pinX) + " "+ str(pinY) + " "+ str(iLength) + " D 50 50 1 1 I\n"
+        print("D")
+    elif width == 0 and height > 0 :
+        iLength = height
+        rets += "X "+ sName + " "+ str(pinNumber) + " "+ str(pinX) + " "+ str(pinY) + " "+ str(iLength) + " U 50 50 1 1 I\n"
+        print("U")
+
+    return rets
+
