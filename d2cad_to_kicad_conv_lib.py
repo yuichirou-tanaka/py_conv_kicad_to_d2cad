@@ -16,8 +16,8 @@ outputPath = args[2]
 print(path)
 
 #open file
-readKidat = open(path, "r")
-d2wr = open(outputPath, "w")
+readKidat = open(path,'r',encoding="utf-8_sig")
+d2wr = open(outputPath, 'w',encoding="utf-8_sig")
 
 #read data
 wwlflag = False

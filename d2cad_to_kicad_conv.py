@@ -149,6 +149,6 @@ def changePartsNametoXF1(isName):
         print("no Name ")
         return ""
     saName = isName.split() 
-    sName = saName[1].replace('"', '')
+    sName = saName[1]
     rets = "F1 " +  sName + " 0 100 50 H V C CNN"
     return rets
