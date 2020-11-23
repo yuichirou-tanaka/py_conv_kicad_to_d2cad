@@ -140,11 +140,11 @@ def changePinNameNotoX(istrPin,isName,isNo):
 # Part 6150 4750 6056 4614 6244 4756 0 0 4096 0'
 # Name "AGND" 6150 4650 65 30'
 #F1 "AGND" 0 100 50 H V C CNN
-def changePartsNametoXF1(isPart,isName):
+def changePartsNametoXF1(isName):
     print("changePinNameNotoX")    
-    if not isPart.startswith('Part ') :
-        print("no Part ")
-        return ""
+    # if not isPart.startswith('Part ') :
+    #     print("no Part ")
+    #     return ""
     if not isName.startswith('Name ') :
         print("no Name ")
         return ""
